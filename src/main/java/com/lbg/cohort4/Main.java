@@ -1,5 +1,6 @@
 package com.lbg.cohort4;
 
+import java.text.DecimalFormat;
 import java.util.Scanner;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -17,7 +18,24 @@ public class Main {
         VATprompt();
         VATrate = sc.nextFloat();
 
+        float finalPrice;
+        finalPrice = VATcalculate(itemcost, VATrate);
 
+        DecimalFormat df = new DecimalFormat("#.##");
+        System.out.println(df.format(finalPrice));
+
+
+
+
+
+
+
+
+
+    }
+
+    static public float VATcalculate(float a, float b){
+        return a * ((100 + b)/100);
     }
 
     static private void priceprompt()
@@ -29,4 +47,6 @@ public class Main {
     {
         System.out.println("Please enter the VAT rate %: ");
     }
+
+
 }
