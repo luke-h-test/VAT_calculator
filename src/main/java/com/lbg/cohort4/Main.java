@@ -21,7 +21,7 @@ public class Main {
         float finalPrice;
         finalPrice = VATcalculate(itemcost, VATrate);
 
-        DecimalFormat df = new DecimalFormat("#.##");
+
 //        System.out.println(df.format(finalPrice));
 
 
@@ -48,10 +48,11 @@ public class Main {
         System.out.println("Please enter the VAT rate %: ");
     }
     static private void results(float cost, float vatRate, float totalPrice) {
+        DecimalFormat df = new DecimalFormat("#.##");
 
-        System.out.println("cost of the item: $" + cost);
+        System.out.println("cost of the item: $" + df.format(cost));
         System.out.println("VAT Rate: " + vatRate + "%");
-        System.out.println("Total Price: $" + totalPrice);
+        System.out.println("Total Price: $" + df.format(totalPrice));
     }
 
 
