@@ -2,6 +2,7 @@ package com.lbg.cohort4;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -17,7 +18,7 @@ public class Main {
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.println(prices[0]);
+//        System.out.println(prices[0]);
 
         while(true) {
             continuePrompt();
@@ -29,6 +30,10 @@ public class Main {
 
             if(continueChoice.equalsIgnoreCase("QUIT"))
             {
+                if(prices[0] > -1)
+                {
+                    printOrder(prices);
+                }
                 break;
             }
             else if(continueChoice.equalsIgnoreCase(""))
@@ -38,6 +43,15 @@ public class Main {
                     VATprompt();
                     VATrate = sc.nextFloat();
                 }
+                else
+                {
+                    float[] newPrices = new float[prices.length + 1];
+                    for (int i =0; i < prices.length; i++)
+                    {
+                        newPrices[i] = prices[i];
+                    }
+                    prices = newPrices;
+                }
 
                 priceprompt();
                 prices[prices.length - 1] = sc.nextFloat();
@@ -45,13 +59,6 @@ public class Main {
                 float totalToDisplay = calculateTotalCost(prices, VATrate);
 
                 System.out.println("The total price including VAT is: £" + totalToDisplay);
-
-                float[] newPrices = new float[prices.length + 1];
-                for (int i =0; i < prices.length; i++)
-                {
-                    newPrices[i] = prices[i];
-                }
-                prices = newPrices;
 
             }
             else
@@ -100,5 +107,36 @@ public class Main {
         return priceSum * (1 + (vatRate/100));
     }
 
+    static private void printOrder(float[] priceList)
+    {
+        Arrays.sort(priceList);
+        System.out.print("Current prices entered: ");
+        for(var price: priceList)
+        {
+            System.out.print(price + ", ");
+        }
+        System.out.println("");
+    }
+
+
+}
+
+class PurchasedItem
+{
+    private float price;
+    private float quantity;
+    private float VAT_rate;
+
+    PurchasedItem(float price, float quantity, float VAT_rate)
+    {
+        this.price = price;
+        this.quantity = quantity;
+        this.VAT_rate = VAT_rate;
+    }
+
+    final float totalPrice()
+    {
+        return quantity * price * (1 + (VAT_rate/100));
+    }
 
 }
