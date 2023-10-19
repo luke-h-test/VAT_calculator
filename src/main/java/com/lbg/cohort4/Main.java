@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
 
         ArrayList<Float> prices = new ArrayList<>();
-        float VATrate;
+        float VATrate = 0;
         float itemcost;
         String continueChoice;
 
@@ -18,24 +18,37 @@ public class Main {
 
         while(true) {
             continuePrompt();
-            continueChoice = sc.next();
+            continueChoice = sc.nextLine();
+            if(prices.size() > 0)
+            {
+                continueChoice = sc.nextLine();
+            }
 
-            if(continueChoice.compareToIgnoreCase("QUIT") == 0)
+            if(continueChoice.equalsIgnoreCase("QUIT"))
             {
                 break;
             }
-            else if(prices.size() == 0)
+            else if(continueChoice.equalsIgnoreCase(""))
             {
-                VATprompt();
-                VATrate = sc.nextFloat();
+                if(prices.size() == 0)
+                {
+                    VATprompt();
+                    VATrate = sc.nextFloat();
+                }
+
+                priceprompt();
+                prices.add(sc.nextFloat());
+
+                float totalToDisplay = calculateTotalCost(prices, VATrate);
+
+                System.out.println("The total price including VAT is: £" + totalToDisplay);
+
+
+
             }
-
-            priceprompt();
-            prices.add(sc.nextFloat());
-
-            for(var item: prices)
+            else
             {
-                System.out.println(item);
+                System.out.println("command not recognised");
             }
 
         }
@@ -66,6 +79,17 @@ public class Main {
 
     static private void continuePrompt(){
         System.out.println("Press enter to continue entering prices or type QUIT to close the program.");
+    }
+
+    static private float calculateTotalCost(ArrayList<Float> priceList, float vatRate)
+    {
+        float priceSum = 0;
+        for (var price: priceList)
+        {
+            priceSum += price;
+        }
+
+        return priceSum * (1 + (vatRate/100));
     }
 
 
