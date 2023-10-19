@@ -1,6 +1,7 @@
 package com.lbg.cohort4;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -8,25 +9,23 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        float itemcost;
+        ArrayList<Float> prices = new ArrayList<>();
         float VATrate;
+        float itemcost;
+        String continueChoice;
 
         Scanner sc = new Scanner(System.in);
 
-        priceprompt();
-        itemcost = sc.nextFloat();
-        VATprompt();
-        VATrate = sc.nextFloat();
+        while(true) {
+            continuePrompt();
+            continueChoice = sc.next();
 
-        float finalPrice;
-        finalPrice = VATcalculate(itemcost, VATrate);
+            if(continueChoice.compareToIgnoreCase("QUIT") == 0)
+            {
+                break;
+            }
 
-
-//        System.out.println(df.format(finalPrice));
-
-
-
-        results(itemcost, VATrate, finalPrice );
+        }
 
 
     }
@@ -50,6 +49,10 @@ public class Main {
         System.out.println("cost of the item: $" + df.format(cost));
         System.out.println("VAT Rate: " + vatRate + "%");
         System.out.println("Total Price: $" + df.format(totalPrice));
+    }
+
+    static private void continuePrompt(){
+        System.out.println("Press enter to continue entering prices or type QUIT to close the program.");
     }
 
 
