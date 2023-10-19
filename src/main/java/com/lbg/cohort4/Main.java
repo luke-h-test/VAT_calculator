@@ -1,17 +1,14 @@
 package com.lbg.cohort4;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
 
-        float prices[] = new float[1];
-        prices[0] = -1;
+        ArrayList<Float> prices = new ArrayList<>();
         float VATrate = 0;
         float itemcost;
         String continueChoice;
@@ -23,14 +20,14 @@ public class Main {
         while(true) {
             continuePrompt();
             continueChoice = sc.nextLine();
-            if(prices[0] > -1)
+            if(prices.size() > 0)
             {
                 continueChoice = sc.nextLine();
             }
 
             if(continueChoice.equalsIgnoreCase("QUIT"))
             {
-                if(prices[0] > -1)
+                if(prices.size() > 0)
                 {
                     printOrder(prices);
                 }
@@ -38,23 +35,14 @@ public class Main {
             }
             else if(continueChoice.equalsIgnoreCase(""))
             {
-                if(prices[0] == -1)
+                if(prices.size() == 0)
                 {
                     VATprompt();
                     VATrate = sc.nextFloat();
                 }
-                else
-                {
-                    float[] newPrices = new float[prices.length + 1];
-                    for (int i =0; i < prices.length; i++)
-                    {
-                        newPrices[i] = prices[i];
-                    }
-                    prices = newPrices;
-                }
 
                 priceprompt();
-                prices[prices.length - 1] = sc.nextFloat();
+                prices.add(sc.nextFloat());
 
                 float totalToDisplay = calculateTotalCost(prices, VATrate);
 
@@ -96,7 +84,7 @@ public class Main {
         System.out.println("Press enter to continue entering prices or type QUIT to close the program.");
     }
 
-    static private float calculateTotalCost(float[] priceList, float vatRate)
+    static private float calculateTotalCost(ArrayList<Float> priceList, float vatRate)
     {
         float priceSum = 0;
         for (var price: priceList)
@@ -107,9 +95,9 @@ public class Main {
         return priceSum * (1 + (vatRate/100));
     }
 
-    static private void printOrder(float[] priceList)
+    static private void printOrder(ArrayList<Float> priceList)
     {
-        Arrays.sort(priceList);
+        Collections.sort(priceList);
         System.out.print("Current prices entered: ");
         for(var price: priceList)
         {
