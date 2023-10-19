@@ -29,9 +29,6 @@ public class Main {
         results(itemcost, VATrate, finalPrice );
 
 
-
-
-
     }
 
     static public float VATcalculate(float a, float b){
