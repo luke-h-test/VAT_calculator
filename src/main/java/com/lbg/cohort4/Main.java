@@ -8,8 +8,7 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
 
-        ArrayList<Float> prices = new ArrayList<>();
-        float VATrate = 0;
+        ArrayList<PurchasedItem> purchasedItems = new ArrayList<>();
         float itemcost;
         String continueChoice;
 
@@ -20,31 +19,35 @@ public class Main {
         while(true) {
             continuePrompt();
             continueChoice = sc.nextLine();
-            if(prices.size() > 0)
+            if(purchasedItems.size() > 0)
             {
                 continueChoice = sc.nextLine();
             }
 
             if(continueChoice.equalsIgnoreCase("QUIT"))
             {
-                if(prices.size() > 0)
+                if(purchasedItems.size() > 0)
                 {
-                    printOrder(prices);
+                    printOrder(purchasedItems);
                 }
                 break;
             }
             else if(continueChoice.equalsIgnoreCase(""))
             {
-                if(prices.size() == 0)
-                {
-                    VATprompt();
-                    VATrate = sc.nextFloat();
-                }
+
+                VATprompt();
+                float VATrate = sc.nextFloat();
 
                 priceprompt();
-                prices.add(sc.nextFloat());
+                float newPrice = sc.nextFloat();
 
-                float totalToDisplay = calculateTotalCost(prices, VATrate);
+                quantityPrompt();
+                float newQuantity = sc.nextFloat();
+
+                PurchasedItem newItem = new PurchasedItem(newPrice, newQuantity, VATrate);
+                purchasedItems.add(newItem);
+
+                float totalToDisplay = calculateTotalCost(purchasedItems);
 
                 System.out.println("The total price including VAT is: £" + totalToDisplay);
 
@@ -72,6 +75,13 @@ public class Main {
     {
         System.out.println("Please enter the VAT rate %: ");
     }
+
+    static private void quantityPrompt()
+    {
+        System.out.println("Please enter quantity of this item: ");
+    }
+
+
     static private void results(float cost, float vatRate, float totalPrice) {
         DecimalFormat df = new DecimalFormat("#.##");
 
@@ -84,20 +94,20 @@ public class Main {
         System.out.println("Press enter to continue entering prices or type QUIT to close the program.");
     }
 
-    static private float calculateTotalCost(ArrayList<Float> priceList, float vatRate)
+    static private float calculateTotalCost(ArrayList<PurchasedItem> priceList)
     {
         float priceSum = 0;
-        for (var price: priceList)
+        for (var item: priceList)
         {
-            priceSum += price;
+            priceSum += item.getPrice() * item.getQuantity() * (1 + (item.getVAT()/100));
         }
 
-        return priceSum * (1 + (vatRate/100));
+        return priceSum;
     }
 
-    static private void printOrder(ArrayList<Float> priceList)
+    static private void printOrder(ArrayList<PurchasedItem> priceList)
     {
-        Collections.sort(priceList);
+        Collections.sort(priceList, Comparator.comparing(PurchasedItem::getPrice));
         System.out.print("Current prices entered: ");
         for(var price: priceList)
         {
@@ -126,5 +136,37 @@ class PurchasedItem
     {
         return quantity * price * (1 + (VAT_rate/100));
     }
+
+    final void setPrice(float priceInput)
+    {
+        this.price = priceInput;
+    }
+
+    final float getPrice()
+    {
+        return this.price;
+    }
+
+    final void setVAT(float VATinput)
+    {
+        this.VAT_rate = VATinput;
+    }
+
+    final float getVAT()
+    {
+        return this.VAT_rate;
+    }
+
+    final void setQuantity(float quantityInput)
+    {
+        this.quantity = quantityInput;
+    }
+
+    final float getQuantity()
+    {
+        return this.quantity;
+    }
+
+
 
 }
