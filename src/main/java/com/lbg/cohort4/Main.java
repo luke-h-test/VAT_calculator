@@ -24,6 +24,19 @@ public class Main {
             {
                 break;
             }
+            else if(prices.size() == 0)
+            {
+                VATprompt();
+                VATrate = sc.nextFloat();
+            }
+
+            priceprompt();
+            prices.add(sc.nextFloat());
+
+            for(var item: prices)
+            {
+                System.out.println(item);
+            }
 
         }
 
