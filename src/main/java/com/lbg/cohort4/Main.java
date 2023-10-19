@@ -9,17 +9,20 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        ArrayList<Float> prices = new ArrayList<>();
+        float prices[] = new float[1];
+        prices[0] = -1;
         float VATrate = 0;
         float itemcost;
         String continueChoice;
 
         Scanner sc = new Scanner(System.in);
 
+        System.out.println(prices[0]);
+
         while(true) {
             continuePrompt();
             continueChoice = sc.nextLine();
-            if(prices.size() > 0)
+            if(prices[0] > -1)
             {
                 continueChoice = sc.nextLine();
             }
@@ -30,20 +33,25 @@ public class Main {
             }
             else if(continueChoice.equalsIgnoreCase(""))
             {
-                if(prices.size() == 0)
+                if(prices[0] == -1)
                 {
                     VATprompt();
                     VATrate = sc.nextFloat();
                 }
 
                 priceprompt();
-                prices.add(sc.nextFloat());
+                prices[prices.length - 1] = sc.nextFloat();
 
                 float totalToDisplay = calculateTotalCost(prices, VATrate);
 
                 System.out.println("The total price including VAT is: £" + totalToDisplay);
 
-
+                float[] newPrices = new float[prices.length + 1];
+                for (int i =0; i < prices.length; i++)
+                {
+                    newPrices[i] = prices[i];
+                }
+                prices = newPrices;
 
             }
             else
@@ -81,7 +89,7 @@ public class Main {
         System.out.println("Press enter to continue entering prices or type QUIT to close the program.");
     }
 
-    static private float calculateTotalCost(ArrayList<Float> priceList, float vatRate)
+    static private float calculateTotalCost(float[] priceList, float vatRate)
     {
         float priceSum = 0;
         for (var price: priceList)
