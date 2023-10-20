@@ -49,7 +49,8 @@ public class Main {
 
                 float totalToDisplay = calculateTotalCost(purchasedItems);
 
-                System.out.println("The total price including VAT is: £" + totalToDisplay);
+                System.out.println("The total price of this purchase is: " + newItem.totalPrice());
+                System.out.println("The total price of all purchases, including VAT is: £" + totalToDisplay);
 
             }
             else
@@ -111,7 +112,7 @@ public class Main {
         System.out.print("Current prices entered: ");
         for(var price: priceList)
         {
-            System.out.print(price + ", ");
+            System.out.print(price.getPrice() + ", ");
         }
         System.out.println("");
     }
@@ -168,5 +169,5 @@ class PurchasedItem
     }
 
 
-
 }
+
